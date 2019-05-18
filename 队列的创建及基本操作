@@ -1,0 +1,155 @@
+typedef int Position;
+
+struct QNode {
+
+    ElementType *Data;     /* 存储元素的数组 */
+
+    Position Front, Rear;  /* 队列的头、尾指针 */
+
+    int MaxSize;           /* 队列最大容量 */
+
+};
+
+typedef struct QNode *Queue;
+
+ 
+
+Queue CreateQueue( int MaxSize )//创建队列   
+
+{
+
+    Queue Q = (Queue)malloc(sizeof(struct QNode));
+
+    Q->Data = (ElementType *)malloc(MaxSize * sizeof(ElementType));
+
+    Q->Front = Q->Rear = 0;
+
+    Q->MaxSize = MaxSize;
+
+    return Q;
+
+}
+
+ 
+
+bool IsFull( Queue Q )
+
+{
+
+    return ((Q->Rear+1)%Q->MaxSize == Q->Front);
+
+}
+
+ 
+
+bool AddQ( Queue Q, ElementType X )
+
+{
+
+    if ( IsFull(Q) ) {
+
+        printf("队列满");
+
+        return false;
+
+    }
+
+    else {
+
+        Q->Rear = (Q->Rear+1)%Q->MaxSize;
+
+        Q->Data[Q->Rear] = X;
+
+        return true;
+
+    }
+
+}
+
+ 
+
+bool IsEmpty( Queue Q )
+
+{
+
+    return (Q->Front == Q->Rear);
+
+}
+
+ 
+
+ElementType DeleteQ( Queue Q )
+
+{
+
+    if ( IsEmpty(Q) ) { 
+
+        printf("队列空");
+
+        return ERROR;
+
+    }
+
+    else  {
+
+        Q->Front =(Q->Front+1)%Q->MaxSize;
+
+        return  Q->Data[Q->Front];
+
+    }
+
+}
+
+//通过链表搭建队列
+
+struct Node{
+
+	ElementType Data;
+
+	struct Node *Next;
+
+};
+
+struct QNode{
+
+	struct Node *rear;
+
+	struct Node *front;
+
+};
+
+typedef struct QNode *Queue;
+
+Queue PtrQ;
+
+ElementType DeleteQ(Queue PtrQ)
+
+{
+
+	struct Node *FrontCell;
+
+	Element FrontElem;
+
+	if(PtrQ->front==NULL){			//判断队列是否为空 
+
+		printf("队列空"); return ERROR; 
+
+	}
+
+	FrontCell = PtrQ->front;
+
+	if(PtrQ->front==PtrQ->rear)
+
+		PtrQ->front=PtrQ->rear=NULL;
+
+	else
+
+		PtrQ->front=PtrQ->front->Next;
+
+	FrontElem=FrontCell->Data;
+
+	free(FrontCell);
+
+	return FrontElem;
+
+}
