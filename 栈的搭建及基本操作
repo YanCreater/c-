@@ -1,0 +1,119 @@
+栈的搭建及基本操作#define MAXSIZE 
+	typedef struct SNode *Stack;
+	struct SNode
+	{
+	Elemtype Data[MAXSIZE];
+	int Top;
+	};
+	//入栈操作
+	void Push(Stcak PtrS, Elemtype item)
+	{
+	if (PtrS->Top == MAXSIZE-1)
+	{
+	printf("栈已满")；
+	return ；
+	}
+	else
+	{
+	PtrS->Data[++(PtrS->Top)] = item;
+	return ;
+	}
+	}
+	//出栈操作
+	void Pop(Stack PtrS)
+	{
+	if(PtrS->Top == -1)
+	{
+	printf("栈为空")；
+	return ERROR;
+	}
+	else
+	return(PtrS->Data[(PtrS->Top)--]);
+	}
+	如何最大地利用数组空间
+	使两个栈分别从数组的两头开始向中间生长；当两个栈顶指针相遇时，表示两个栈都满了。
+	#define MAXSIZE
+	struct DStack
+	{
+	ElemType Data[MAXSIZE];
+	int Top1;
+	int Top2;
+	}S;
+	S.Top1=-1;
+	S.Top2 = MAXSIZE;
+	//两个栈共用一个数组的push 入栈操作
+	void Push(struct DStack *PtrS,ElemType item,int Tag)//Tag 用于记录是哪个栈的入栈
+	{
+	if(PtrS->Top2 -PtrS->Top1 ==1)
+	{printf("栈已满")；return ；}
+	if (Tag == 1)
+	PtrS->Data[++(PtrS->Top1)] =item;
+	else
+	PtrS->Data[(PtrS->Top2)--] =item;
+	}
+	void Pop(struct DStack *PtrS,int Tag)
+	{
+	if(Tag ==1)
+	{
+	if(PtrS->Top1 == -1)
+	{
+	printf("栈1为空")；
+	return NULL;
+	}
+	else return PtrS->Data[(PtrS->Top1)--];
+	}
+	else
+	{
+	if(PtrS->Top2==MAXSIZE)
+	{
+	printf("栈2为空")；returnNULL;
+	}
+	else return PtrS->Data[(PtrS->Top2)++];
+	}
+	//
+	//栈的另一种表达 链栈
+	#include<stdlib.h>
+	#include<stdio.h> 
+	typedef struct SNode *Stack;
+	struct SNode{
+	ElementType Data;
+	struct SNode *Next;
+	};
+	Stack CreateStack()
+	{/*构建一个堆栈的头节点，返回指针*/
+	Stack S;
+	S = (Stack)malloc(sizeof(struct SNode));
+	S->Next=NULL;
+	return S;
+	}
+	int IsEmpty(Stack S)
+	{
+	return (S->Next==NULL);
+	}
+	void Push(ElementType item,Stack S)
+	{
+	struct SNode *TmpCell;
+	TmpCell = (struct SNode *)malloc(sizeof(struct SNode));
+	TmpCell->Data =item;
+	TmpCell ->Next =S->Next;
+	S->Next=TmpCell;
+	} 
+	/*删除并返回堆栈S的栈顶元素*/
+	ElementType Pop(Stack S)
+	{
+	struct SNode *FirstCell;
+	ElementTypr TopElem;
+	if(IsEmpty(S))
+	{
+	printf("栈为空");
+	return NULL; 
+	}
+	else 
+	{
+	FirstCell = S->Next;
+	S->Next =FirstCell->Next;
+	TopElem = FirstCell->Data;
+	free(FirstCell);
+	return TopElem;
+	}
+	}
