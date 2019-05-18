@@ -1,0 +1,43 @@
+typedef char VertexType;   // 顶点类型
+typedef int EdgeType;		//边上的权值
+#define MAXVEX 100			//最大顶点数
+#define INFINITY 65535
+
+typedef struct{
+	VertexType Vexs[MAXVEX];		//顶点表
+	EdgeType arc[MAXVEX][MAXVEX];	//邻接矩阵，边表
+	int numVertexes, numEdges;		//图中的顶点数和变数
+}MGraph;
+
+
+
+void CreatMGraph(MGraph * G)
+{
+	int i, j, k, w;
+	printf("请输入顶点数和边数：\n");
+	scanf_s("%d,%d", &G->numVertexes, &G->numEdges); 
+	for (i = 0;i < G->numVertexes;i++)			//读入顶点信息，建立顶点表
+	{
+		scanf_s(&G->Vexs[i]);
+	}
+	for (i = 0;i < G->numVertexes;i++)
+	{
+		for (j = 0;j < G->numVertexes;j++)
+		{
+			G->arc[i][j] = INFINITY;		//邻接矩阵初始化
+		}
+	}
+	for (k = 0;k < G->numEdges;k++)
+	{
+		printf("输入边(vi,vj)上的下标i，下标j和权w：\n");
+		scanf_s("%d,%d,%d", &i, &j, &w);
+		G->arc[i][j] = w;
+		G->arc[j][i] = G->arc[i][j];		//无向图矩阵对称
+	}
+}
+
+int main()
+{
+	MGraph* G;
+
+}
