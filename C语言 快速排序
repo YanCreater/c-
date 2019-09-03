@@ -1,0 +1,46 @@
+#include<stdio.h>
+	int b[100],n;
+	
+
+	void QuickSort(int left,int right)
+	{
+		int i,j,t,temp;
+		if(left>right)
+			return;
+		temp=b[left];
+		i=left;
+		j=right;
+		while(i!=j)
+		{
+			while(b[j]>=temp&&i<j)
+				j--;
+			while(b[i]<=temp&&i<j)
+				i++;
+			if(i<j)
+			{
+				t=b[i];
+				b[i]=b[j];
+				b[j]=t;
+			}
+		}
+		b[left]=b[i];
+		b[i]=temp;
+		QuickSort(left,i-1);
+		QuickSort(i+1,right);
+		return;
+	}
+	
+
+	int main()
+	{
+		int i,j;
+		printf("请输入需排序数的个数："); 
+		scanf("%d",&n);
+		printf("请输入需排序的数：");
+		for(i=1;i<=n;i++)
+			scanf("%d",&b[i]);
+		QuickSort(1,n);
+		for(i=1;i<=n;i++)
+			printf("%d\t",b[i]); 
+		return 0;
+	}
