@@ -1,0 +1,56 @@
+#include<stdio.h>
+	#include<stdlib.h>
+	typedef struct StackNode //栈的结点
+	{
+		int data;				//数据域
+		struct StackNode* next;	//指针域（指向下一个栈的结点）
+	}StackNode,*LinkStacPtr;	//LinkStacPtr是一个指向结构体的指针
+	
+
+	typedef struct LinkStack	//链栈
+	{
+		LinkStacPtr top;	//top为栈顶指针;top指向一个栈的结点
+		int count;
+	}LinkStack;
+	
+
+	//入栈操作
+	void Push(LinkStack* S, int e)
+	{
+		LinkStacPtr q = (LinkStacPtr)malloc(sizeof(StackNode));//为q分配了一个栈结点的空间
+		q->data = e;
+		q->next = S->top;		//把结点q利用“头插法”插入到开头（即栈顶）
+		S->top = q;				//完成插入
+		S->count++;
+	}
+	
+
+	//出栈操作
+	void Pop(LinkStack* S, int* e)
+	{
+		LinkStacPtr p;
+		if (S->top == NULL)
+			exit(0);
+		*e = S->top->data;
+		p = S->top;
+		S->top = S->top->next;
+		free(p);
+		S->count--;
+	}
+	
+
+	int main()
+	{
+		int a;
+		LinkStack* S= (LinkStacPtr)malloc(sizeof(StackNode));;
+		for (int i = 0;i < 6;i++)
+		{
+			Push(S, i);
+		}
+		for (int i = 0;i < 6;i++)
+		{
+			Pop(S, &a);
+			printf("%d\t", a);
+		}
+		return 0;
+	}
