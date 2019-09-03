@@ -1,0 +1,118 @@
+#include<stdio.h>
+	#define MAXSIZE 20
+	typedef int ElemType; 
+	typedef struct 
+	{
+		ElemType data[MAXSIZE];//data是一个数组 
+		int length;
+	}SqList;
+	#define ERROR 0
+	#define OK 1
+	#define TRUE 1
+	#define FALSE 0
+	typedef int Status; 
+	int Find(ElemType a,ElemType b);
+	Status GetElem(SqList L,int i,ElemType *e)//返回一个int类型的数据 
+	{
+		if(L.length==0||i<1||i>L.length)
+		return ERROR;
+		*e=L.data[i-1];
+		return OK;
+	}
+	Status InSert(SqList &L,int i,ElemType *e)
+	{
+		int k;
+		if(L.length==MAXSIZE)
+			return ERROR;
+		if(i<1||i>L.length+1)
+			return ERROR;
+		if(i<=L.length)
+		{
+			for(k=L.length-1;k>=i-1;k--)
+			L.data[k+1]=L.data[k]; 
+		}
+		L.data[i-1]=*e ;
+		L.length++;
+		return OK;
+	}
+	Status DelSert(SqList &L,int i,ElemType *e)
+	{
+		int k;
+		if (L.length==0)
+		return ERROR;
+		if(i<1||i>L.length+1)
+		return ERROR;
+		*e=L.data[i-1];
+		if(i<L.length)
+		{
+			for(k=i;k<L.length;k++)
+			{
+				L.data[k-1]=L.data[k]; 
+			 }
+		} 
+		 L.length--;
+		 return OK;
+	}
+	
+
+	int LocatElem(SqList &L,ElemType *e,Status(*compare)(ElemType,ElemType))
+	{
+		int i=1;
+		int *p=L.data;
+		while(i<=L.length&&!(*compare)(*p++,*e))
+		{
+			i++;
+		}
+		if(i<=L.length)
+			return i;
+		else 
+			return 0;
+	}
+	int Find(ElemType a,ElemType b)
+	{
+		if(a!=b)
+		{
+			return ERROR;
+		}
+		else
+			return OK;
+	}
+	int main()
+	{
+		int i,n;ElemType k;//n为输入数字的个数 k为查找的序号的值 	
+		int j;//j为要插入的数字	
+		printf("数字的个数:");
+		scanf("%d",&n);
+		printf("请输入需要插入的数："); 
+		scanf("%d",&j); 
+		SqList L;
+		printf("输入这一组数：");
+		for(i=0;i<n;i++)
+		{
+			scanf("%d",&L.data[i]);	
+		}
+		L.length=n;
+		GetElem(L,3,&k);
+		printf("该线性表的第3个数为：%d\n",k);
+		InSert(L,3,&j);
+		printf("插入后的线性表："); 
+		for(i=0;i<L.length;i++)
+			printf("%d\t",L.data[i]);
+		printf("插入后线性表的长度为：%d\n",L.length);
+		DelSert(L,3,&j);
+		for(i=0;i<L.length;i++)
+			printf("%d\t",L.data[i]);
+		printf("删除后线性表的长度为：%d\n",L.length);
+		int t;
+		ElemType p;
+		printf("请输入你要查找的数字："); 
+		scanf("%d",&p);
+		t=LocatElem(L,&p,Find);
+		if(t)
+		printf("查找到表中第%d个元素为%d!\n",t,p);
+		else
+		{
+			printf("表中没有这个%d！\n",p);
+		}
+		return 0;
+	 } 
