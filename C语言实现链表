@@ -1,0 +1,55 @@
+#include<stdio.h>
+	#include<stdlib.h>
+	typedef int ElemType;
+	#define ERROR 0
+	#define OK 1
+	#define TRUE 1
+	#define FALSE 0
+	typedef int Status;
+	typedef struct LNode {
+		ElemType data;
+		struct LNode *next;
+	}LNode, *LinkList;//LinkList 是一个结构体指针
+	
+
+	int main()
+	{
+		LNode *head = NULL, *p = NULL, *pr=NULL;
+		int i, n;//n为需新建链表结点的个数
+		printf("创建结点的个数：");
+		scanf_s("%d", &n);
+	 	printf("需要输入结点的值：");
+		for (i = 0;i < n;i++)
+		{
+			p = (struct LNode *)malloc(sizeof(struct LNode));
+			if (p == NULL)
+			{
+				printf("分配空间失败！\n");
+				exit(0);
+			}
+			p->next= NULL;
+			if (head == NULL)
+			{
+				head = p;
+				pr = head;
+			}
+			else
+			{
+				while (pr->next!=NULL)
+				{
+					pr = pr->next;
+				}
+				pr->next = p;
+			}
+			scanf_s("%d", &p->data);
+		}
+		p->next = NULL;
+		pr = head;
+		printf("head");
+		while (pr)
+		{	
+			printf("->%d", pr->data);
+			pr = pr->next;
+		}
+		return 0;
+	}
